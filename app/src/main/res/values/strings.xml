@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Task Master</string>
+    <string name="add_task_text">add task</string>
+    <string name="all_task_text">All Tasks</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="task_title">Task Title</string>
+    <string name="add_task_hint">add task…</string>
+    <string name="task_desc_hint">add task description…</string>
+    <string name="task_desc_text">Task Description</string>
+    <string name="total_tasks">Total Tasks: </string>
+    <string name="number_of_tasks">0</string>
+</resources>
