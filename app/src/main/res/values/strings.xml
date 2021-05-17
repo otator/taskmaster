@@ -2,11 +2,18 @@
     <string name="app_name">Task Master</string>
     <string name="add_task_text">add task</string>
     <string name="all_task_text">All Tasks</string>
-    <string name="my_tasks">My Tasks</string>
     <string name="task_title">Task Title</string>
     <string name="add_task_hint">add task…</string>
     <string name="task_desc_hint">add task description…</string>
     <string name="task_desc_text">Task Description</string>
     <string name="total_tasks">Total Tasks: </string>
     <string name="number_of_tasks">0</string>
+    <string name="save">save</string>
+    <string name="enter_username">Enter username</string>
+    <string name="enter_username_hint">Enter username…</string>
+    <string name="task1">Do Code challenge26</string>
+    <string name="task2">Do read 27</string>
+    <string name="task3">"do workout "</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</string>
+    <string name="setting">setting</string>
 </resources>
