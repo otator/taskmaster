@@ -16,7 +16,8 @@ public class DetailsActivity extends AppCompatActivity {
         TextView taskDescriptionTextView = findViewById(R.id.detailsDescriptionText);
 
         taskTitleTextView.setText(getIntent().getExtras().getString("taskTitle"));
-        taskDescriptionTextView.setText(R.string.lorem);
+
+        taskDescriptionTextView.setText(getIntent().getExtras().getString("taskDescription"));
 
 
     }
