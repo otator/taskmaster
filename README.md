@@ -26,3 +26,15 @@ Task master is an android application that lets you add tasks and save them
 * add Task class that has title, description and state(in progress, new, assigned, complete).
 * add custom adapter to show hard coded tasks dynamically in the home page.
 * add listener for the task views to show the task details in the details activity.
+
+### day4
+
+* add the ability for the user to add tasks.
+* implement local database to save the user tasks
+* add the functionality to display the number of tasks in the add task activity
+
+<div style="display:flex; justify-content: space-around">
+<img src="screenshot/Screenshot_4.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+<img src="screenshot/Screenshot_5.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>

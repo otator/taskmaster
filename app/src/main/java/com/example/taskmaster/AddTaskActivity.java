@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -20,6 +22,10 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private Button addTaskButton;
     private EditText taskTitle;
     private EditText taskDescription;
+    private EditText taskState;
+    private AppDatabase appDatabase;
+    private TextView tasksCounterTextView;
+    private TaskDao taskDao;
 //    private Set<Task> tasks= new HashSet<>();
 
     @Override
@@ -29,6 +35,12 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         addTaskButton = findViewById(R.id.addTaskBtn);
         taskTitle = findViewById(R.id.taskTitleEditText);
         taskDescription = findViewById(R.id.taskDescriptionEditText);
+        taskState = findViewById(R.id.taskStateEditText);
+        tasksCounterTextView = findViewById(R.id.numberOfTasksTextView);
+        appDatabase = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "task_master").allowMainThreadQueries().build();
+        taskDao = appDatabase.taskDao();
+        tasksCounterTextView.setText(taskDao.getTasksNumber()+"");
         addTaskButton.setOnClickListener(this);
 
     } //end onCreate()
@@ -40,22 +52,17 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 taskTitle.setError("Task Title Can't Be Empty");
             if(TextUtils.isEmpty(taskDescription.getText()))
                 taskDescription.setError("Task Description Can't Be Empty");
-            else{
-//                AllTasksActivity allTasksActivity = new AllTasksActivity();
-//                tasks = allTasksActivity.readTasks(this, "tasks");
-//                tasks.add(new Task(taskTitle.getText().toString(), taskDescription.getText().toString()));
-//                saveData(tasks);
-                Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
-            }
+            if(TextUtils.isEmpty(taskDescription.getText()))
+                taskState.setText("new");
+
+
+            taskDao.addTask(new Task(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString()));
+
+            Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
+            finish();
 
         }
     } //end onClick()
 
-//    private void saveData(Set<Task> tasks){
-//        SharedPreferences sharedPreferences = this.getSharedPreferences("tasks", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        editor.putString("tasks", gson.toJson(tasks)).apply();
-//    }
 
 } //end class

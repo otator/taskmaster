@@ -19,8 +19,9 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<Task> tasks = new ArrayList<>();
     static Context context;
-    private static  TextView taskDescriptionTextView;
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    private TextView taskDescriptionTextView;
+    private String state;
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView taskTitleTextView;
 
         public ViewHolder(View view){
@@ -34,6 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     Intent intent = new Intent(view.getContext(), DetailsActivity.class);
                     intent.putExtra("taskTitle", getTextView().getText());
                     intent.putExtra("taskDescription", taskDescriptionTextView.getText());
+                    intent.putExtra("taskState", state);
                     context.startActivity(intent);
                 }
             });
@@ -60,6 +62,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(TaskAdapter.ViewHolder holder, int position) {
         holder.getTextView().setText(tasks.get(position).getTitle());
         taskDescriptionTextView.setText(tasks.get(position).getDescription());
+        state = tasks.get(position).getState();
     }
 
     @Override
