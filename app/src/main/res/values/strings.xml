@@ -16,4 +16,6 @@
     <string name="task3">"do workout "</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</string>
     <string name="setting">setting</string>
+    <string name="task_state_text">Task State</string>
+    <string name="task_state_hint">add task state</string>
 </resources>

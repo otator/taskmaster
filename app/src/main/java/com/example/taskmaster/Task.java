@@ -1,8 +1,18 @@
 package com.example.taskmaster;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "task")
 public class Task {
+    @PrimaryKey
+    private Long id;
+    @ColumnInfo(name="title")
     private String title;
+    @ColumnInfo(name = "description")
     private String description;
+    @ColumnInfo(name="state")
     private String state;
 
     public Task(String title, String description, String state) {
@@ -33,6 +43,14 @@ public class Task {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

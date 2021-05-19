@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,20 +31,20 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences = null;
     private RecyclerView recyclerView;
     private List<Task> tasks = new ArrayList<>();
+    private AppDatabase appDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addTaskButton = findViewById(R.id.addBtn);
         allTasksButton = findViewById(R.id.allTasksBtn);
-//        taskOneButton = findViewById(R.id.taskBtn1);
-//        taskTwoButton = findViewById(R.id.taskBtn2);
-//        taskThreeButton = findViewById(R.id.taskBtn3);
         usernameTextView = findViewById(R.id.usernameTextView);
         settingButton = findViewById(R.id.settingBtn);
        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
        recyclerView = findViewById(R.id.recyclerView);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
+        appDatabase= Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "task_master").allowMainThreadQueries().build();
 
         usernameTextView.setText(sharedPreferences.getString("username", "username"));
         Intent detailsActivityIntent = new Intent(this, DetailsActivity.class);
@@ -64,32 +65,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        taskOneButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                detailsActivityIntent.putExtra("taskTitle", taskOneButton.getText());
-//                startActivity(detailsActivityIntent);
-//
-//            }
-//        });
-//
-//        taskTwoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                detailsActivityIntent.putExtra("taskTitle", taskTwoButton.getText());
-//                startActivity(detailsActivityIntent);
-//
-//            }
-//        });
-//
-//        taskThreeButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                detailsActivityIntent.putExtra("taskTitle", taskThreeButton.getText());
-//                startActivity(detailsActivityIntent);
-//            }
-//        });
-
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,14 +73,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
-        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
-        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
-        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
-        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
-        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
+//        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
+//        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
+//        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
+//        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
+//        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
+//        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
 
-
+        TaskDao taskDao = appDatabase.taskDao();
+        tasks = taskDao.getAllTasks();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.canScrollVertically();
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -119,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         usernameTextView.setText(sharedPreferences.getString("username", "username"));
+        TaskDao taskDao = appDatabase.taskDao();
+        tasks = taskDao.getAllTasks();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.canScrollVertically();
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(new TaskAdapter(this, tasks));
         Log.d("---------------------", "onResume():  ------------------");
     }
 
