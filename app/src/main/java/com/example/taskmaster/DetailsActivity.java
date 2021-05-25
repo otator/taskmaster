@@ -12,10 +12,9 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        TextView taskTitleTextView = findViewById(R.id.detailsTitleText);
         TextView taskDescriptionTextView = findViewById(R.id.detailsDescriptionText);
         TextView taskStateTextView = findViewById(R.id.detailsStateText);
-        taskTitleTextView.setText(getIntent().getExtras().getString("taskTitle"));
+        setTitle(getIntent().getExtras().getString("taskTitle"));
         taskDescriptionTextView.setText(getIntent().getExtras().getString("taskDescription"));
         taskStateTextView.setText(getIntent().getExtras().getString("taskState"));
     }
