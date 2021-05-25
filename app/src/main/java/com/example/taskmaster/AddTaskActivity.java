@@ -52,8 +52,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 taskTitle.setError("Task Title Can't Be Empty");
             if(TextUtils.isEmpty(taskDescription.getText()))
                 taskDescription.setError("Task Description Can't Be Empty");
-            if(TextUtils.isEmpty(taskDescription.getText()))
-                taskState.setText("new");
+            if(TextUtils.isEmpty(taskState.getText()))
+                taskState.setText(R.string.default_state);
 
 
             taskDao.addTask(new Task(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString()));

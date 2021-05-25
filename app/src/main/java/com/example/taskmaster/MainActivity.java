@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private Button settingButton;
     SharedPreferences sharedPreferences = null;
     private RecyclerView recyclerView;
-    private List<Task> tasks = new ArrayList<>();
+    public static List<Task> tasks = new ArrayList<>();
     private AppDatabase appDatabase;
+    private Integer tasksNumber = 0;
+    private TaskDao taskDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +43,15 @@ public class MainActivity extends AppCompatActivity {
         allTasksButton = findViewById(R.id.allTasksBtn);
         usernameTextView = findViewById(R.id.usernameTextView);
         settingButton = findViewById(R.id.settingBtn);
-       sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-       recyclerView = findViewById(R.id.recyclerView);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        recyclerView = findViewById(R.id.recyclerView);
+
         appDatabase= Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "task_master").allowMainThreadQueries().build();
 
         usernameTextView.setText(sharedPreferences.getString("username", "username"));
-        Intent detailsActivityIntent = new Intent(this, DetailsActivity.class);
 
+        // open add task activity on button clicked
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // open all tasks activity on button clicked
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //open settings activity on button clicked
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,15 +78,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
-//        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
-//        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
-//        tasks.add(new Task("Do Code 27", "do the challenge asap", "in progress"));
-//        tasks.add(new Task("Do Code 28", "do the challenge asap", "in progress"));
-//        tasks.add(new Task("Do Read 29", "do the read asap", "in progress"));
-
-        TaskDao taskDao = appDatabase.taskDao();
+        taskDao = appDatabase.taskDao();
         tasks = taskDao.getAllTasks();
+        if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
+            tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", "5"));
+            tasks = tasks.subList(0, tasksNumber);
+        }
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.canScrollVertically();
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -89,22 +92,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new TaskAdapter(this, tasks));
 
-    }//end onCreate()
+    } //end onCreate()
 
     @Override
     protected void onResume() {
         super.onResume();
-        usernameTextView.setText(sharedPreferences.getString("username", "username"));
-        TaskDao taskDao = appDatabase.taskDao();
+        usernameTextView.setText(!sharedPreferences.getString("username", "username").equals("username")?sharedPreferences.getString("username", "username")+"'s tasks": "username");
+        taskDao = appDatabase.taskDao();
         tasks = taskDao.getAllTasks();
+        if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
+            tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", "5"));
+
+        }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.canScrollVertically();
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new TaskAdapter(this, tasks));
+        recyclerView.setAdapter(new TaskAdapter(this, tasks.subList(0, tasksNumber)));
         Log.d("---------------------", "onResume():  ------------------");
-    }
+    } // end onResume()
 
     @Override
     protected void onStart() {
