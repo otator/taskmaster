@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         sessionUsername = AWSMobileClient.getInstance().getUsername();
-        Log.v("----user-----", sessionUsername);
+        Log.v("----user-----", "????????"+sessionUsername);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", sessionUsername);
         editor.apply();
