@@ -60,17 +60,22 @@ add unit tests, using [Espresso](https://developer.android.com/training/testing/
 * tap on a task, and assert that the resulting activity displays the name of that task
 * assert that important UI elements are displayed on the page
 
-
+<!-- 
 ### lab-32
 
 replace room database with amplify which is one of amazon web services (AWS)
 
 * adding amplify dependencies 
-* create the schema for the task application
+* create the schema for the task application -->
 
 ### lab-36
 
 * add the signup / sign in button so the user can create an account or login if he already has an account.
 * display the user username in the main activity
+<div style="display:flex; justify-content: space-around; flex-wrap: wrap">
+  <img src="screenshot/Screenshot_13.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+  <img src="screenshot/Screenshot_14.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>
 
 
