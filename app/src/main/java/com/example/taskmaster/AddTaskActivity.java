@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
 
 import android.content.Context;
@@ -32,6 +33,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         addTaskButton = findViewById(R.id.addTaskBtn);
         taskTitle = findViewById(R.id.taskTitleEditText);
         taskDescription = findViewById(R.id.taskDescriptionEditText);

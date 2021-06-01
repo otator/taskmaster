@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +13,8 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         TextView taskDescriptionTextView = findViewById(R.id.detailsDescriptionText);
         TextView taskStateTextView = findViewById(R.id.detailsStateText);
         setTitle(getIntent().getExtras().getString("taskTitle"));

@@ -1,6 +1,7 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +24,8 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         saveButton = findViewById(R.id.saveBtn);
         usernameEditText = findViewById(R.id.usernameEditText2);
         numberOfTasksEditText = findViewById(R.id.numberOfTasksEditText);

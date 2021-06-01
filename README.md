@@ -6,8 +6,8 @@ Task master is an android application which let you add new tasks, assign them t
 <!-- <img src="screenshot/Screenshot_3.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px"> -->
 
 
-### day1 (lab-26)
-* home page with title, image and two buttons that when they clicked new activiites will be opened.
+### lab-26)
+* home page with title, image and two buttons that when they clicked new activiites will be oened.
 
 * Add Task activity with two input fileds and a button for save(not saving yet), and a counter for all tasks
 
@@ -17,7 +17,7 @@ Task master is an android application which let you add new tasks, assign them t
 
 
 
-### day2 (lab-27)
+### lab-27
 
 * update home page to show three buttons with hard coded task titles, when any button of them is clicked it will open details activity.
 
@@ -28,7 +28,7 @@ Task master is an android application which let you add new tasks, assign them t
 <img src="screenshot/Screenshot_2.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
 
 
-### day3 (lab-28)
+### lab-28
 
 * add Task class that has title, description and state(in progress, new, assigned, complete).
 * add custom adapter to show hard coded tasks dynamically in the home page.
@@ -37,7 +37,7 @@ Task master is an android application which let you add new tasks, assign them t
 <img src="screenshot/Screenshot_3.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
 
 
-### day4 (lab-29)
+### lab-29
 
 * add the ability for the user to add tasks.
 * implement local database to save the user tasks
@@ -52,7 +52,7 @@ Task master is an android application which let you add new tasks, assign them t
   <img src="screenshot/Screenshot_12.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
 </div>
 
-### day5 (lab-31)
+### lab-31
 
 add unit tests, using [Espresso](https://developer.android.com/training/testing/espresso) testing framework
 
@@ -61,10 +61,16 @@ add unit tests, using [Espresso](https://developer.android.com/training/testing/
 * assert that important UI elements are displayed on the page
 
 
-### day6 (lab-32)
+### lab-32
 
 replace room database with amplify which is one of amazon web services (AWS)
 
 * adding amplify dependencies 
 * create the schema for the task application
+
+### lab-36
+
+* add the signup / sign in button so the user can create an account or login if he already has an account.
+* display the user username in the main activity
+
 
