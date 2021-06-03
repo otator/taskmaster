@@ -15,10 +15,14 @@ public class Task {
     @ColumnInfo(name="state")
     private String state;
 
-    public Task(String title, String description, String state) {
+    @ColumnInfo(name="imageName")
+    private String imageName;
+
+    public Task(String title, String description, String state, String imageName) {
         this.title = title;
         this.description = description;
         this.state = state;
+        this.imageName = imageName;
     }
 
     public String getTitle() {
@@ -53,12 +57,22 @@ public class Task {
         this.id = id;
     }
 
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", state='" + state + '\'' +
+                ", imageName='" + imageName + '\'' +
                 '}';
     }
 }

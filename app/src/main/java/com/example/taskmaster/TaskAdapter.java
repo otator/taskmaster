@@ -21,6 +21,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     static Context context;
     private TextView taskDescriptionTextView;
     private String state;
+    private String fileName;
     public class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView taskTitleTextView;
 
@@ -36,6 +37,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     intent.putExtra("taskTitle", getTextView().getText());
                     intent.putExtra("taskDescription", taskDescriptionTextView.getText());
                     intent.putExtra("taskState", state);
+                    intent.putExtra("fileName", fileName);
                     context.startActivity(intent);
                 }
             });
@@ -63,6 +65,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         holder.getTextView().setText(tasks.get(position).getTitle());
         taskDescriptionTextView.setText(tasks.get(position).getDescription());
         state = tasks.get(position).getState();
+        fileName = tasks.get(position).getImageName();
     }
 
     @Override

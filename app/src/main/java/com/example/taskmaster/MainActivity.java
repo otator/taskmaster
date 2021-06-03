@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +23,14 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private String  sessionUsername;
     private TextView signOut;
     private TextView signIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         appDatabase= Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "task_master").allowMainThreadQueries().build();
+                AppDatabase.class, "task_master").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
 
 
@@ -105,11 +114,13 @@ public class MainActivity extends AppCompatActivity {
         // Add this line, to include the Auth plugin.
         try {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
         } catch (AmplifyException e) {
             e.printStackTrace();
         }
+
+
 
 
         Amplify.Auth.fetchUserAttributes(
@@ -195,16 +206,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    protected void uploadFile(Context context){
+        File file = new File(context.getFilesDir(), "key0");
+
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.append("test");
+            bufferedWriter.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        Amplify.Storage.uploadFile(
+                "key0",
+                file,
+                result -> Log.i("uploadFile", "Successfully Uploaded: "+ result.getKey()),
+                error -> Log.e("uploadFile", "Storage Failure: "+error)
+        );
+
+    }
+
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
         sessionUsername = AWSMobileClient.getInstance().getUsername();
-        Log.v("----user-----", "????????"+sessionUsername);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", sessionUsername);
         editor.apply();
         usernameTextView.setText(!sharedPreferences.getString("username", "username").equals("username")?sharedPreferences.getString("username", "username")+"'s tasks": "username");
+
+
         taskDao = appDatabase.taskDao();
         tasks = taskDao.getAllTasks();
         if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
