@@ -5,7 +5,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.amplifyframework.core.Amplify;
+
+import java.io.File;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -17,8 +23,21 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         TextView taskDescriptionTextView = findViewById(R.id.detailsDescriptionText);
         TextView taskStateTextView = findViewById(R.id.detailsStateText);
+        TextView taskFileTextView = findViewById(R.id.fileNameTextView);
         setTitle(getIntent().getExtras().getString("taskTitle"));
         taskDescriptionTextView.setText(getIntent().getExtras().getString("taskDescription"));
         taskStateTextView.setText(getIntent().getExtras().getString("taskState"));
+        downloadFile(getIntent().getStringExtra("fileName"));
+        taskFileTextView.setText(getIntent().getStringExtra("fileName"));
+    }
+
+    public void downloadFile(String fileName){
+        Amplify.Storage.downloadFile(
+                fileName,
+                new File(getApplicationContext().getFilesDir() + fileName),
+                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName()),
+                error -> Log.e("MyAmplifyApp",  "Download Failure", error)
+        );
+        Toast.makeText(this, "File downloaded successfully", Toast.LENGTH_LONG).show();
     }
 }
