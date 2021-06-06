@@ -1,6 +1,5 @@
 package com.example.taskmaster;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,39 +7,23 @@ import androidx.room.Room;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-import com.google.gson.Gson;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class AddTaskActivity extends AppCompatActivity implements View.OnClickListener {
     private Button addTaskButton;
@@ -53,7 +36,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private Button uploadFileButton;
     private String fileName="";
 
-//    private Set<Task> tasks= new HashSet<>();
+//    private Set<MyTask> myTasks= new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +82,15 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v.getId() == R.id.addTaskBtn){
             if(TextUtils.isEmpty(taskTitle.getText()))
-                taskTitle.setError("Task Title Can't Be Empty");
+                taskTitle.setError("MyTask Title Can't Be Empty");
             if(TextUtils.isEmpty(taskDescription.getText()))
-                taskDescription.setError("Task Description Can't Be Empty");
+                taskDescription.setError("MyTask Description Can't Be Empty");
             if(TextUtils.isEmpty(taskState.getText()))
                 taskState.setText(R.string.default_state);
 
-            taskDao.addTask(new Task(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString(), fileName));
+            taskDao.addTask(new MyTask(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString(), fileName));
 
-            Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "MyTask Added", Toast.LENGTH_LONG).show();
             finish();
 
         }

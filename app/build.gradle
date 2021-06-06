@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -60,6 +61,12 @@ dependencies {
     //storage s3
     implementation 'com.amplifyframework:aws-storage-s3:1.17.4'
     implementation 'com.amplifyframework:aws-auth-cognito:1.17.4'
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
     // optional - Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'

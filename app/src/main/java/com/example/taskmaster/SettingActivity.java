@@ -32,13 +32,13 @@ public class SettingActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         usernameEditText.setText(sharedPreferences.getString("username", "username"));
-        maxNumberOfTasks = MainActivity.tasks.size();
+        maxNumberOfTasks = MainActivity.myTasks.size();
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(numberOfTasksEditText.getText())){
                     tasksNumber = Integer.parseInt(numberOfTasksEditText.getText().toString());
-                    // if the number of tasks the user enters is negative or more than the number of tasks itself
+                    // if the number of myTasks the user enters is negative or more than the number of myTasks itself
                     if(tasksNumber < 0 || tasksNumber > maxNumberOfTasks) {
                         numberOfTasksEditText.setError("number must be between 0 and " + maxNumberOfTasks);
                         isValidNumber = false;
@@ -53,7 +53,7 @@ public class SettingActivity extends AppCompatActivity {
                     editor.putString("username", username);
                     editor.apply();
                     Toast.makeText(getApplicationContext(), "User " + username + " saved!", Toast.LENGTH_SHORT).show();
-                    // don't finish unless the number of tasks is valid
+                    // don't finish unless the number of myTasks is valid
                     if(isValidNumber)
                         finish();
                 }else{

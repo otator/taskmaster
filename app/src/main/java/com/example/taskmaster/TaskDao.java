@@ -8,12 +8,12 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
-    @Query("SELECT * from task")
-    List<Task> getAllTasks();
+    @Query("SELECT * from MyTask")
+    List<MyTask> getAllTasks();
 
     @Insert
-    void addTask(Task task);
+    void addTask(MyTask myTask);
 
-    @Query("SELECT COUNT(*) FROM task")
+    @Query("SELECT COUNT(*) FROM MyTask")
     int getTasksNumber();
 }

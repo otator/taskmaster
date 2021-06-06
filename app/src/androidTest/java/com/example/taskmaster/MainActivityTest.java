@@ -63,13 +63,13 @@ public class MainActivityTest {
     }
 
     @Test
-    // NOTE: this test will pass only if you have at least on tasks add, this is according to the implementation of the Setting activity
+    // NOTE: this test will pass only if you have at least on myTasks add, this is according to the implementation of the Setting activity
     public void checkUsername(){
         onView(withId(R.id.settingBtn)).perform(click());
         onView(withId(R.id.usernameEditText2)).perform(replaceText("AbdalQader"), closeSoftKeyboard());
         onView(withId(R.id.numberOfTasksEditText)).perform(replaceText("1"), closeSoftKeyboard());
         onView(withId(R.id.saveBtn)).perform(click());
-        onView(withId(R.id.usernameTextView)).check(matches(withText("AbdalQader's tasks")));
+        onView(withId(R.id.usernameTextView)).check(matches(withText("AbdalQader's myTasks")));
     }
 
 

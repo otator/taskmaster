@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Task Master</string>
-    <string name="add_task_text">add task</string>
+    <string name="add_task_text">add myTask</string>
     <string name="all_task_text">All Tasks</string>
     <string name="task_title">Task Title</string>
-    <string name="add_task_hint">add task…</string>
-    <string name="task_desc_hint">add task description…</string>
+    <string name="add_task_hint">add myTask…</string>
+    <string name="task_desc_hint">add myTask description…</string>
     <string name="task_desc_text">Task Description</string>
     <string name="total_tasks">Total Tasks: </string>
     <string name="number_of_tasks">0</string>
@@ -17,9 +17,9 @@
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</string>
     <string name="setting">setting</string>
     <string name="task_state_text">Task State</string>
-    <string name="task_state_hint">add task state</string>
-    <string name="number_of_tasks_text_view">Enter number of tasks</string>
-    <string name="tasks_number_edit_text">How many tasks in main...</string>
+    <string name="task_state_hint">add myTask state</string>
+    <string name="number_of_tasks_text_view">Enter number of myTasks</string>
+    <string name="tasks_number_edit_text">How many myTasks in main...</string>
     <string name="default_state">new</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
