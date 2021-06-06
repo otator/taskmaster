@@ -79,3 +79,19 @@ replace room database with amplify which is one of amazon web services (AWS)
 </div>
 
 
+
+
+
+### lab-38
+
+* add notifications to the application using firebase.
+* the user can see the notification even if the app is closed
+
+<div style="display:flex; flex-wrap: wrap">
+  <img src="screenshot/Screenshot_15.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>
+
+
+
+
