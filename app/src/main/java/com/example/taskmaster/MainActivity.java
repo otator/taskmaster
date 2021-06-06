@@ -11,21 +11,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
-
-import org.w3c.dom.Text;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private Button settingButton;
     SharedPreferences sharedPreferences = null;
     private RecyclerView recyclerView;
-    public static List<Task> tasks = new ArrayList<>();
+    public static List<MyTask> myTasks = new ArrayList<>();
     private AppDatabase appDatabase;
     private Integer tasksNumber = 0;
     private TaskDao taskDao;
@@ -64,6 +64,25 @@ public class MainActivity extends AppCompatActivity {
         settingButton = findViewById(R.id.settingBtn);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         recyclerView = findViewById(R.id.recyclerView);
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+//                        String msg = getString(R.string.msg_token_fmt, token);
+
+                        Log.d("TAG", token);
+                        Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         appDatabase= Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "task_master").allowMainThreadQueries().fallbackToDestructiveMigration().build();
@@ -79,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // open all tasks activity on button clicked
+        // open all myTasks activity on button clicked
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,10 +117,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         taskDao = appDatabase.taskDao();
-        tasks = taskDao.getAllTasks();
+        myTasks = taskDao.getAllTasks();
         if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
             tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", "5"));
-            tasks = tasks.subList(0, tasksNumber);
+            try{
+                myTasks = myTasks.subList(0, tasksNumber);
+            }catch (IndexOutOfBoundsException e){
+                Toast.makeText(MainActivity.this, "No tasks found", Toast.LENGTH_LONG).show();
+            }
         }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -109,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new TaskAdapter(this, tasks));
+        recyclerView.setAdapter(new TaskAdapter(this, myTasks));
 
         // Add this line, to include the Auth plugin.
         try {
@@ -236,11 +259,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", sessionUsername);
         editor.apply();
-        usernameTextView.setText(!sharedPreferences.getString("username", "username").equals("username")?sharedPreferences.getString("username", "username")+"'s tasks": "username");
+        usernameTextView.setText(!sharedPreferences.getString("username", "username").equals("username")?sharedPreferences.getString("username", "username")+"'s myTasks": "username");
 
 
         taskDao = appDatabase.taskDao();
-        tasks = taskDao.getAllTasks();
+        myTasks = taskDao.getAllTasks();
         if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
             tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", "5"));
 
@@ -250,7 +273,13 @@ public class MainActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new TaskAdapter(this, tasks.subList(0, tasksNumber)));
+        try{
+            recyclerView.setAdapter(new TaskAdapter(this, myTasks.subList(0, tasksNumber)));
+        }catch (IndexOutOfBoundsException e){
+//            Toast.makeText(MainActivity.this, "No tasks found", Toast.LENGTH_LONG).show();
+            recyclerView.setAdapter(new TaskAdapter(this, myTasks.subList(0, 0)));
+        }
+
         Log.d("---------------------", "onResume():  ------------------");
         Amplify.Auth.fetchAuthSession(
                 result -> {

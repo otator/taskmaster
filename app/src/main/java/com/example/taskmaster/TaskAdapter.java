@@ -1,23 +1,19 @@
 package com.example.taskmaster;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
-    private List<Task> tasks = new ArrayList<>();
+    private List<MyTask> myTasks = new ArrayList<>();
     static Context context;
     private TextView taskDescriptionTextView;
     private String state;
@@ -48,8 +44,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
 
     }
-    public TaskAdapter(Context context,List<Task> tasks){
-        this.tasks = tasks;
+    public TaskAdapter(Context context,List<MyTask> myTasks){
+        this.myTasks = myTasks;
         TaskAdapter.context = context;
          taskDescriptionTextView = new TextView(context.getApplicationContext());
     }
@@ -62,15 +58,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(TaskAdapter.ViewHolder holder, int position) {
-        holder.getTextView().setText(tasks.get(position).getTitle());
-        taskDescriptionTextView.setText(tasks.get(position).getDescription());
-        state = tasks.get(position).getState();
-        fileName = tasks.get(position).getImageName();
+        holder.getTextView().setText(myTasks.get(position).getTitle());
+        taskDescriptionTextView.setText(myTasks.get(position).getDescription());
+        state = myTasks.get(position).getState();
+        fileName = myTasks.get(position).getImageName();
     }
 
     @Override
     public int getItemCount() {
-        return tasks.size();
+        return myTasks.size();
     }
 
 

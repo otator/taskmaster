@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "task")
-public class Task {
+@Entity(tableName = "mytask")
+public class MyTask {
     @PrimaryKey
     private Long id;
     @ColumnInfo(name="title")
@@ -18,7 +18,7 @@ public class Task {
     @ColumnInfo(name="imageName")
     private String imageName;
 
-    public Task(String title, String description, String state, String imageName) {
+    public MyTask(String title, String description, String state, String imageName) {
         this.title = title;
         this.description = description;
         this.state = state;
@@ -67,7 +67,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "MyTask{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
