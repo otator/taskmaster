@@ -24,9 +24,17 @@ public class DetailsActivity extends AppCompatActivity {
         TextView taskDescriptionTextView = findViewById(R.id.detailsDescriptionText);
         TextView taskStateTextView = findViewById(R.id.detailsStateText);
         TextView taskFileTextView = findViewById(R.id.fileNameTextView);
+        TextView taskLocationTextView = findViewById(R.id.locationTextView);
         setTitle(getIntent().getExtras().getString("taskTitle"));
+        Log.d("@@@@@@@", getIntent().getExtras().getString("taskTitle"));
+        Log.d("@@@@@@@", getIntent().getExtras().getString("taskDescription"));
+        Log.d("@@@@@@@", getIntent().getExtras().getString("taskState"));
+        Log.d("@@@@@@@", getIntent().getExtras().getString("address"));
+
+
         taskDescriptionTextView.setText(getIntent().getExtras().getString("taskDescription"));
         taskStateTextView.setText(getIntent().getExtras().getString("taskState"));
+        taskLocationTextView.setText(getIntent().getStringExtra("address"));
         downloadFile(getIntent().getStringExtra("fileName"));
         taskFileTextView.setText(getIntent().getStringExtra("fileName"));
     }

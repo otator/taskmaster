@@ -18,11 +18,15 @@ public class MyTask {
     @ColumnInfo(name="imageName")
     private String imageName;
 
-    public MyTask(String title, String description, String state, String imageName) {
+    @ColumnInfo(name="address")
+    private String address;
+
+    public MyTask(String title, String description, String state, String imageName, String address) {
         this.title = title;
         this.description = description;
         this.state = state;
         this.imageName = imageName;
+        this.address = address;
     }
 
     public String getTitle() {
@@ -63,6 +67,14 @@ public class MyTask {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

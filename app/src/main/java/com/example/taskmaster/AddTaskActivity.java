@@ -37,6 +37,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private String fileName="";
     private Intent intent;
     private File fileFromIntent;
+    private String address;
 
 //    private Set<MyTask> myTasks= new HashSet<>();
 
@@ -51,6 +52,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         taskDescription = findViewById(R.id.taskDescriptionEditText);
         taskState = findViewById(R.id.taskStateEditText);
         tasksCounterTextView = findViewById(R.id.numberOfTasksTextView);
+        address = MainActivity.currentLocation;
         uploadFileButton = findViewById(R.id.uploadBtn);
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "task_master").allowMainThreadQueries().build();
@@ -104,7 +106,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             if(TextUtils.isEmpty(taskState.getText()))
                 taskState.setText(R.string.default_state);
 
-            taskDao.addTask(new MyTask(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString(), fileName));
+            taskDao.addTask(new MyTask(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString(), fileName, address));
 
             Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_LONG).show();
             finish();

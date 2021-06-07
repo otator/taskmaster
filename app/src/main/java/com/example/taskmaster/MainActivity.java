@@ -2,14 +2,21 @@ package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -23,7 +30,10 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -33,6 +43,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private Button addTaskButton;
@@ -51,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private String  sessionUsername;
     private TextView signOut;
     private TextView signIn;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    public static String currentLocation = "not available";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +77,55 @@ public class MainActivity extends AppCompatActivity {
         settingButton = findViewById(R.id.settingBtn);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         recyclerView = findViewById(R.id.recyclerView);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            return;
+//        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                // Logic to handle location object
+                                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+                                try{
+                                    Address city = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0);
+//                                    Toast.makeText(MainActivity.this, city.toString(), Toast.LENGTH_LONG).show();
+                                    Log.d("city", city.getAddressLine(0).split(",")[1]);
+                                    currentLocation = city.getLocality();
+                                    Log.d("city", city.toString());
+//                                    Toast.makeText(MainActivity.this, "Latitude: " + location.getLatitude() + ", Longitude" + location.getLongitude(), Toast.LENGTH_LONG).show();
+
+                                }catch (IOException e){
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+                    });
+//        }else{
+//            String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+//            ActivityCompat.requestPermissions(this, permissions, 1);
+//            // check if the user granted the permission
+//            if(ContextCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
+//                //TODO: get the location here
+//                fusedLocationProviderClient.getLastLocation()
+//                        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//                            @Override
+//                            public void onSuccess(Location location) {
+//                                // Got last known location. In some rare situations this can be null.
+//                                if (location != null) {
+//                                    // Logic to handle location object
+//                                    Toast.makeText(MainActivity.this, "Latitude: " + location.getLatitude() + ", Longitude" + location.getLongitude(), Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        });
+//            }else{
+//
+//            }
+//        }
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -119,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         taskDao = appDatabase.taskDao();
         myTasks = taskDao.getAllTasks();
         if(!sharedPreferences.getString("tasksNumber", "null").equals("null")) {
-            tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", "5"));
+            tasksNumber = Integer.parseInt(sharedPreferences.getString("tasksNumber", myTasks.size()+""));
             try{
                 myTasks = myTasks.subList(0, tasksNumber);
             }catch (IndexOutOfBoundsException e){
@@ -219,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             );
         });
     } //end onCreate()
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
