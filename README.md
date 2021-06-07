@@ -114,6 +114,15 @@ replace room database with amplify which is one of amazon web services (AWS)
 
 </div>
 
+### lab-41
+
+* get the current user application
+* add the location to the tasks that the user creates
+
+<div style="display:flex; flex-wrap: wrap">
+  <img src="screenshot/Screenshot_17.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>
 
 
 

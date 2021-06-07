@@ -46,6 +46,19 @@
         app:layout_constraintVertical_bias="0.28" />
 
     <TextView
+        android:id="@+id/detailsState2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.686" />
+
+    <TextView
         android:id="@+id/detailsDescriptionText"
         android:layout_width="348dp"
         android:layout_height="68dp"
@@ -74,6 +87,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.355" />
+
+    <TextView
+        android:id="@+id/locationTextView"
+        android:layout_width="348dp"
+        android:layout_height="68dp"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:text="@string/task_state_text"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.831" />
 
     <TextView
         android:id="@+id/fileNameTextView"
