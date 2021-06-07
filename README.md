@@ -79,6 +79,17 @@ replace room database with amplify which is one of amazon web services (AWS)
 </div>
 
 
+### lab-37
+
+* make the user able to add an image/file from his device and add to the task he is creating using amazon S3 service
+* show the image in the details of the task
+* if a file chosen, show a link to the file 
+
+<div style="display:flex; flex-wrap: wrap">
+  <img src="screenshot/Screenshot_15.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>
+
 
 
 
@@ -89,6 +100,17 @@ replace room database with amplify which is one of amazon web services (AWS)
 
 <div style="display:flex; flex-wrap: wrap">
   <img src="screenshot/Screenshot_15.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
+
+</div>
+
+
+### lab-41
+
+* add intent filter so that when ever a user click share button on an image, add task activity shows up
+* add the image to a task when the user make a new task
+
+<div style="display:flex; flex-wrap: wrap">
+  <img src="screenshot/Screenshot_16.jpg" width ="250px" height="400px" style="margin: 50px 0 50px 0; border-radius: 5px">
 
 </div>
 

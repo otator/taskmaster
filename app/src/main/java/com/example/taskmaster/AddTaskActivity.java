@@ -35,6 +35,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private TaskDao taskDao;
     private Button uploadFileButton;
     private String fileName="";
+    private Intent intent;
+    private File fileFromIntent;
 
 //    private Set<MyTask> myTasks= new HashSet<>();
 
@@ -55,6 +57,20 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         taskDao = appDatabase.taskDao();
         tasksCounterTextView.setText(taskDao.getTasksNumber()+"");
         addTaskButton.setOnClickListener(this);
+        intent = getIntent();
+        if(intent.getType() != null){
+//            Toast.makeText(this, intent.getData().toString(), Toast.LENGTH_LONG).show();
+//            if(intent.getType().contains("image/")){
+//                fileName = getFileName(intent.getData());
+//                // TODO: call the upload file here, when it is fixed
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                    uploadFile(this, intent.getData(), fileName);
+//                }
+//            }
+        }
+
+
+
 
         // Add this line, to include the Auth plugin.
 //        try {
@@ -90,7 +106,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
             taskDao.addTask(new MyTask(taskTitle.getText().toString(), taskDescription.getText().toString(), taskState.getText().toString(), fileName));
 
-            Toast.makeText(this, "MyTask Added", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Task Added Successfully", Toast.LENGTH_LONG).show();
             finish();
 
         }
@@ -100,7 +116,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Toast.makeText(this, data.getData().toString(), Toast.LENGTH_LONG).show();
         if (requestCode == 540){
             fileName = getFileName(data.getData());
             Toast.makeText(this, fileName, Toast.LENGTH_LONG).show();
